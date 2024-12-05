@@ -1,12 +1,7 @@
 name: Build Linux Based Router Distro LTS
 
-# on:
-#   release:
-#     types: [published]
-#   push:
-#     branches:
-#       - master
 on:
+  workflow_dispatch:  # Enables manual triggering
   push:
     tags:
       - "*.*.*"
