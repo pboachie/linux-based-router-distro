@@ -32,14 +32,15 @@ jobs:
         run: |
           cd vyos-build
           autoconf || echo "autoconf failed because the input file is missing."
+          ls -la  # List files to verify if configure was created
 
       - name: Build VyOS ISO AMD64
         run: |
           docker run --rm --privileged \
             -v $(pwd)/vyos-build:/vyos -w /vyos vyos/vyos-build:sagitta bash \
-            -c './configure --architecture amd64 \
+            -c 'ls -la && ./configure --architecture amd64 \
             --build-type release --version ${{ env.RELEASE_VERSION }} \
-            --build-by "me@eliseomartelli.it" && sudo make iso'
+            --build-by "me@eliseomartelli.it" && sudo make iso'  # Check Dir before exec
 
       - name: Rename VyOS ISO
         run: |
