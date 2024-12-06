@@ -19,6 +19,16 @@ jobs:
         run: |
           git clone -b sagitta --single-branch https://github.com/vyos/vyos-build.git
 
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y autoconf automake libtool
+
+      - name: Generate configure script
+        run: |
+          cd vyos-build
+          autoconf
+
       - name: Build VyOS ISO AMD64
         run: |
           docker run --rm --privileged \
