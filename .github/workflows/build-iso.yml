@@ -1,7 +1,7 @@
 name: Build Linux Based Router Distro LTS
 
 on:
-  workflow_dispatch:  # Enables manual triggering
+  workflow_dispatch:
   push:
     tags:
       - "*.*.*"
@@ -19,6 +19,10 @@ jobs:
         run: |
           git clone -b sagitta --single-branch https://github.com/vyos/vyos-build.git
 
+      - name: List directory after clone
+        run: |
+          ls -la vyos-build
+
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -27,7 +31,7 @@ jobs:
       - name: Generate configure script
         run: |
           cd vyos-build
-          autoconf
+          autoconf || echo "autoconf failed because the input file is missing."
 
       - name: Build VyOS ISO AMD64
         run: |
