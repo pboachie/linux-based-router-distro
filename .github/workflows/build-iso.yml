@@ -28,16 +28,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y autoconf automake libtool
 
-      - name: Modify APT sources to disable VyOS packages
+      - name: List all files for debugging
         run: |
-          echo "Commenting out VyOS package repository in sources.list" 
-          sudo sed -i 's/^deb https:\/\/sagitta-packages.vyos.net/#deb https:\/\/sagitta-packages.vyos.net/' /vyos-build/docker/Dockerfile
+          find vyos-build -type f
 
       - name: Build VyOS ISO AMD64
         run: |
           docker run --rm --privileged \
             -v $(pwd)/vyos-build:/vyos -w /vyos vyos/vyos-build:sagitta bash \
-            -c 'sudo make clean && sudo ./build-vyos-image iso --architecture amd64 --build-by "me@eliseomartelli.it"'
+            -c 'echo "Commenting out VyOS package repository" \
+            && sudo sed -i.bak '/^deb https:\/\/sagitta-packages.vyos.net/s/^/#/' /etc/apt/sources.list \
+            && sudo make clean && sudo ./build-vyos-image iso --architecture amd64 --build-by "me@eliseomartelli.it"'
 
       - name: Rename VyOS ISO
         run: |
