@@ -32,7 +32,7 @@ jobs:
         run: |
           docker run --rm --privileged \
             -v $(pwd)/vyos-build:/vyos -w /vyos vyos/vyos-build:sagitta bash \
-            -c 'sudo make clean && sudo ./build-vyos-image iso --architecture amd64 --build-by "me@eliseomartelli.it"'
+            -c 'sudo make clean && sudo ./build-vyos-image iso --architecture amd64 --build-by "support@boachiefamily.net"'
 
       - name: Rename VyOS ISO
         run: |
